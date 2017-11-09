@@ -3,11 +3,14 @@ package projects.nyinyihtunlwin.proofofconceptscreen.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
+import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
 
 
 public class MostPopularFragment extends Fragment {
@@ -19,6 +22,9 @@ public class MostPopularFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView rvMostPopular;
+    private MovieAdapter adapter;
 
     public MostPopularFragment() {
         // Required empty public constructor
@@ -48,7 +54,13 @@ public class MostPopularFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_most_popular, container, false);
+        View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
+        rvMostPopular = view.findViewById(R.id.rv_most_popular);
+        rvMostPopular.setHasFixedSize(true);
+        adapter = new MovieAdapter();
+        rvMostPopular.setAdapter(adapter);
+        rvMostPopular.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        return view;
     }
 
 

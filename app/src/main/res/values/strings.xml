@@ -11,4 +11,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="txt_placeholder_movie_name">Spiderman Homecoming</string>
+    <string name="txt_placeholder_movie_type">(Drama, Horror, Triller)</string>
+    <string name="txt_placeholder_movie_popularity">Current Popularity</string>
+    <string name="btn_movie_overview">Movie Overview</string>
 </resources>

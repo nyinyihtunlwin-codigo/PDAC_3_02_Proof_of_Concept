@@ -3,11 +3,14 @@ package projects.nyinyihtunlwin.proofofconceptscreen.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
+import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
 
 
 public class UpcomingFragment extends Fragment {
@@ -19,6 +22,9 @@ public class UpcomingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView rvUpcoming;
+    private MovieAdapter adapter;
 
     public UpcomingFragment() {
         // Required empty public constructor
@@ -46,7 +52,13 @@ public class UpcomingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_upcoming, container, false);
+        View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
+        rvUpcoming = view.findViewById(R.id.rv_upcoming);
+        rvUpcoming.setHasFixedSize(true);
+        adapter = new MovieAdapter();
+        rvUpcoming.setAdapter(adapter);
+        rvUpcoming.setLayoutManager(new LinearLayoutManager(container.getContext()));
+        return view;
     }
 
     @Override

@@ -3,11 +3,14 @@ package projects.nyinyihtunlwin.proofofconceptscreen.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
+import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
 
 
 public class NowOnCinemaFragment extends Fragment {
@@ -19,6 +22,9 @@ public class NowOnCinemaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private RecyclerView rvNowOnCinema;
+    private MovieAdapter adapter;
 
 
     public NowOnCinemaFragment() {
@@ -47,7 +53,14 @@ public class NowOnCinemaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
+        View view = inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
+        rvNowOnCinema = view.findViewById(R.id.rv_now_on_cinema);
+        rvNowOnCinema.setHasFixedSize(true);
+        adapter = new MovieAdapter();
+        rvNowOnCinema.setAdapter(adapter);
+        rvNowOnCinema.setLayoutManager(new LinearLayoutManager(container.getContext()));
+
+        return view;
     }
 
 
