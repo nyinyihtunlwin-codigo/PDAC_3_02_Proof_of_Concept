@@ -56,7 +56,7 @@ public class NowOnCinemaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
         rvNowOnCinema = view.findViewById(R.id.rv_now_on_cinema);
         rvNowOnCinema.setHasFixedSize(true);
-        adapter = new MovieAdapter();
+        adapter = new MovieAdapter(getContext());
         rvNowOnCinema.setAdapter(adapter);
         rvNowOnCinema.setLayoutManager(new LinearLayoutManager(container.getContext()));
 

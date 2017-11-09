@@ -1,5 +1,8 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.adapters;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,12 @@ import projects.nyinyihtunlwin.proofofconceptscreen.viewholders.MovieViewHolder;
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
+    private Context context;
+
+    public MovieAdapter(Context context) {
+        this.context = context;
+    }
+
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -22,7 +31,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieViewHolder> {
 
     @Override
     public void onBindViewHolder(MovieViewHolder holder, int position) {
-
+        holder.tvRating.setTypeface(Typeface.createFromAsset(context.getAssets(), "MTCORSVA.TTF"));
     }
 
     @Override

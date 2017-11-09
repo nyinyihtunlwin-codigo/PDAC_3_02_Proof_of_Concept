@@ -55,7 +55,7 @@ public class UpcomingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
         rvUpcoming = view.findViewById(R.id.rv_upcoming);
         rvUpcoming.setHasFixedSize(true);
-        adapter = new MovieAdapter();
+        adapter = new MovieAdapter(getContext());
         rvUpcoming.setAdapter(adapter);
         rvUpcoming.setLayoutManager(new LinearLayoutManager(container.getContext()));
         return view;

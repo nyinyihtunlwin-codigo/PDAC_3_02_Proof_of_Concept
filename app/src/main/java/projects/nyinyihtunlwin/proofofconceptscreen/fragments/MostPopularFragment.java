@@ -57,7 +57,7 @@ public class MostPopularFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
         rvMostPopular = view.findViewById(R.id.rv_most_popular);
         rvMostPopular.setHasFixedSize(true);
-        adapter = new MovieAdapter();
+        adapter = new MovieAdapter(getContext());
         rvMostPopular.setAdapter(adapter);
         rvMostPopular.setLayoutManager(new LinearLayoutManager(container.getContext()));
         return view;
