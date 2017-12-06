@@ -9,11 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
+import projects.nyinyihtunlwin.proofofconceptscreen.components.EmptyViewPod;
+import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView;
 
 
-public class UpcomingFragment extends Fragment {
+public class UpcomingFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -23,8 +27,13 @@ public class UpcomingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private RecyclerView rvUpcoming;
+    @BindView(R.id.rv_upcoming)
+    SmartRecyclerView rvUpcoming;
+
     private MovieAdapter adapter;
+
+    @BindView(R.id.vp_empty_movie)
+    EmptyViewPod vpEmptyMovie;
 
     public UpcomingFragment() {
         // Required empty public constructor
@@ -53,9 +62,10 @@ public class UpcomingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
-        rvUpcoming = view.findViewById(R.id.rv_upcoming);
+        ButterKnife.bind(this, view);
         rvUpcoming.setHasFixedSize(true);
         adapter = new MovieAdapter(getContext());
+        rvUpcoming.setEmptyView(vpEmptyMovie);
         rvUpcoming.setAdapter(adapter);
         rvUpcoming.setLayoutManager(new LinearLayoutManager(container.getContext()));
         return view;

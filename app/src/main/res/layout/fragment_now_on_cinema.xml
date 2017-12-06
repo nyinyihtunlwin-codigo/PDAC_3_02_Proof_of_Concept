@@ -4,8 +4,13 @@
     android:layout_height="match_parent"
     tools:context="projects.nyinyihtunlwin.proofofconceptscreen.fragments.NowOnCinemaFragment">
 
-    <android.support.v7.widget.RecyclerView
+    <projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView
         android:id="@+id/rv_now_on_cinema"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <include
+        android:id="@+id/vp_empty_movie"
+        layout="@layout/view_pod_empty"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

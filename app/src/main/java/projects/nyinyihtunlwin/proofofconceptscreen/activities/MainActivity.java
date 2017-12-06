@@ -19,7 +19,7 @@ import android.view.View;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.SectionsPagerAdapter;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
 

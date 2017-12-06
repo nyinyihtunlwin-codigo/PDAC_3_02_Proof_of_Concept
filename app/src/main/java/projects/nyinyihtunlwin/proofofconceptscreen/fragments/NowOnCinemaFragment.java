@@ -9,11 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
+import projects.nyinyihtunlwin.proofofconceptscreen.components.EmptyViewPod;
+import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView;
 
 
-public class NowOnCinemaFragment extends Fragment {
+public class NowOnCinemaFragment extends BaseFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -23,9 +27,13 @@ public class NowOnCinemaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private RecyclerView rvNowOnCinema;
+    @BindView(R.id.rv_now_on_cinema)
+    SmartRecyclerView rvNowOnCinema;
+
     private MovieAdapter adapter;
 
+    @BindView(R.id.vp_empty_movie)
+    EmptyViewPod vpEmptyMovie;
 
     public NowOnCinemaFragment() {
         // Required empty public constructor
@@ -54,9 +62,10 @@ public class NowOnCinemaFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
-        rvNowOnCinema = view.findViewById(R.id.rv_now_on_cinema);
+        ButterKnife.bind(this, view);
         rvNowOnCinema.setHasFixedSize(true);
         adapter = new MovieAdapter(getContext());
+        rvNowOnCinema.setEmptyView(vpEmptyMovie);
         rvNowOnCinema.setAdapter(adapter);
         rvNowOnCinema.setLayoutManager(new LinearLayoutManager(container.getContext()));
 

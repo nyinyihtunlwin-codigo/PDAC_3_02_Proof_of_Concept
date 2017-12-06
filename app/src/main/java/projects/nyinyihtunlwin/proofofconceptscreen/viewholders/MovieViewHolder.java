@@ -5,18 +5,28 @@ import android.view.View;
 import android.widget.TextView;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
+import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
 
 /**
  * Created by Dell on 11/7/2017.
  */
 
-public class MovieViewHolder extends RecyclerView.ViewHolder {
+public class MovieViewHolder extends BaseViewHolder<MovieVO> {
 
-    public TextView tvRating;
 
     public MovieViewHolder(View itemView) {
         super(itemView);
-        tvRating = itemView.findViewById(R.id.tv_rate);
+        itemView.setOnClickListener(this);
+    }
+
+    @Override
+    public void setData(MovieVO mData) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
 
