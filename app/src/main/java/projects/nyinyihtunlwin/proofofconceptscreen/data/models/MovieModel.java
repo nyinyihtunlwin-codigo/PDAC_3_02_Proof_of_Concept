@@ -39,7 +39,7 @@ public class MovieModel {
     }
 
     @Subscribe
-    public void onNewsDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
+    public void onMoviesDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
         mMovies.addAll(event.getLoadedMovies());
         moviePageIndex = event.getLoadedPageIndex() + 1;
     }

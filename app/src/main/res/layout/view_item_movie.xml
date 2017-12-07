@@ -17,9 +17,7 @@
         <ImageView
             android:id="@+id/iv_movie"
             android:layout_width="@dimen/movie_icon_width"
-            android:layout_height="@dimen/movie_icon_height"
-            android:scaleType="fitXY"
-            android:src="@drawable/spider_man_home_coming" />
+            android:layout_height="@dimen/movie_icon_height" />
 
         <TextView
             android:id="@+id/tv_movie_name"
@@ -62,8 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_movie_popularity"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_toEndOf="@id/iv_movie"
-            android:rating="5" />
+            android:layout_toEndOf="@id/iv_movie" />
 
         <Button
             android:id="@+id/btn_movie_overview"
