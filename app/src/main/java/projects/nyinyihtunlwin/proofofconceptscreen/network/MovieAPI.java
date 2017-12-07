@@ -14,5 +14,7 @@ public interface MovieAPI {
 
     @FormUrlEncoded
     @POST("v1/getPopularMovies.php")
-    Call<GetPopularMovieResponse> loadPopularMovies(@Field("page") int page, @Field("access_token") String accessToken);
+    Call<GetPopularMovieResponse> loadPopularMovies(
+            @Field("page") int page
+            , @Field("access_token") String accessToken);
 }

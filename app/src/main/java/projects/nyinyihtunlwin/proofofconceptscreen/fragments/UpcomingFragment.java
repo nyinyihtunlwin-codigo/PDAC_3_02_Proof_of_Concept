@@ -2,6 +2,7 @@ package projects.nyinyihtunlwin.proofofconceptscreen.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
 import projects.nyinyihtunlwin.proofofconceptscreen.components.EmptyViewPod;
 import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView;
+import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
 
 
 public class UpcomingFragment extends BaseFragment {
@@ -69,6 +75,28 @@ public class UpcomingFragment extends BaseFragment {
         rvUpcoming.setAdapter(adapter);
         rvUpcoming.setLayoutManager(new LinearLayoutManager(container.getContext()));
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMovieDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
+        adapter.appendNewData(event.getLoadedMovies());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onErrorInvokingAPI(RestApiEvents.ErrorInvokingAPIEvent event) {
+        Snackbar.make(rvUpcoming, event.getErrorMsg(), Snackbar.LENGTH_INDEFINITE).show();
+    }
+
+    @Override
+    public void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
     @Override

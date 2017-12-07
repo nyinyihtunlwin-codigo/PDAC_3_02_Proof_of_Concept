@@ -16,11 +16,11 @@ public class MovieVO {
     @SerializedName("video")
     private boolean video;
     @SerializedName("vote_average")
-    private long voteAverage;
+    private float voteAverage;
     @SerializedName("title")
     private String title;
     @SerializedName("popularity")
-    private long popularity;
+    private float popularity;
     @SerializedName("poster_path")
     private String posterPath;
     @SerializedName("original_language")
@@ -50,7 +50,7 @@ public class MovieVO {
         return video;
     }
 
-    public long getVoteAverage() {
+    public float getVoteAverage() {
         return voteAverage;
     }
 
@@ -58,7 +58,7 @@ public class MovieVO {
         return title;
     }
 
-    public long getPopularity() {
+    public float getPopularity() {
         return popularity;
     }
 

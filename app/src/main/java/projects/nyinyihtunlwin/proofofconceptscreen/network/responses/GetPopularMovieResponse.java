@@ -2,6 +2,7 @@ package projects.nyinyihtunlwin.proofofconceptscreen.network.responses;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
@@ -18,7 +19,7 @@ public class GetPopularMovieResponse {
     @SerializedName("apiVersion")
     private String apiVersion;
     @SerializedName("page")
-    private String page;
+    private int page;
     @SerializedName("popular-movies")
     private List<MovieVO> popularMovies;
 
@@ -34,11 +35,14 @@ public class GetPopularMovieResponse {
         return apiVersion;
     }
 
-    public String getPage() {
+    public int getPage() {
         return page;
     }
 
     public List<MovieVO> getPopularMovies() {
+        if (popularMovies == null) {
+            popularMovies = new ArrayList<>();
+        }
         return popularMovies;
     }
 }

@@ -1,9 +1,13 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.data.models;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
+import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
 import projects.nyinyihtunlwin.proofofconceptscreen.network.MovieDataAgentImpl;
 import projects.nyinyihtunlwin.proofofconceptscreen.utils.AppConstants;
 
@@ -19,6 +23,7 @@ public class MovieModel {
     private List<MovieVO> mMovies;
 
     private MovieModel() {
+        EventBus.getDefault().register(this);
         mMovies = new ArrayList<>();
     }
 
@@ -31,5 +36,11 @@ public class MovieModel {
 
     public void startLoadingPopularMovies() {
         MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN);
+    }
+
+    @Subscribe
+    public void onNewsDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
+        mMovies.addAll(event.getLoadedMovies());
+        moviePageIndex = event.getLoadedPageIndex() + 1;
     }
 }
