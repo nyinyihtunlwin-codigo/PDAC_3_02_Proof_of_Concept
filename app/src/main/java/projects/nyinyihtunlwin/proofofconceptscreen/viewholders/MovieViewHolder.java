@@ -46,7 +46,7 @@ public class MovieViewHolder extends BaseViewHolder<MovieVO> {
         RequestOptions requestOptions = new RequestOptions()
                 .placeholder(R.drawable.ic_movie_viewholder_black_24dp)
                 .centerCrop();
-        Glide.with(itemView.getRootView().getContext()).load(mData.getPosterPath()).apply(requestOptions).into(ivMovie);
+        Glide.with(itemView.getRootView().getContext()).load("https://image.tmdb.org/t/p/original" + mData.getPosterPath()).apply(requestOptions).into(ivMovie);
         Log.e("path", mData.getPosterPath());
         float popularity = mData.getPopularity() / 200;
         rbMovie.setRating(popularity);

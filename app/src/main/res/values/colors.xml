@@ -12,4 +12,7 @@
     <color name="transparent">#55000000</color>
 
     <color name="black">#000000</color>
+    <color name="light_brown">#d7c79f</color>
+    <color name="light_blue">#5895d8</color>
+    <color name="dark_brown">#481818</color>
 </resources>

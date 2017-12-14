@@ -39,6 +39,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(mSectionsPagerAdapter.getCount());
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
