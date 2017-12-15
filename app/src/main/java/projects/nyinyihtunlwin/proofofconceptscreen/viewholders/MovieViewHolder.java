@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
+import projects.nyinyihtunlwin.proofofconceptscreen.deligates.MovieItemDeligate;
 
 /**
  * Created by Dell on 11/7/2017.
@@ -33,10 +34,13 @@ public class MovieViewHolder extends BaseViewHolder<MovieVO> {
     @BindView(R.id.rb_movie)
     AppCompatRatingBar rbMovie;
 
-    public MovieViewHolder(View itemView) {
+    private MovieItemDeligate movieItemDeligate;
+
+    public MovieViewHolder(View itemView, MovieItemDeligate movieItemDeligate) {
         super(itemView);
         itemView.setOnClickListener(this);
         ButterKnife.bind(this, itemView);
+        this.movieItemDeligate = movieItemDeligate;
     }
 
     @Override
@@ -54,7 +58,7 @@ public class MovieViewHolder extends BaseViewHolder<MovieVO> {
 
     @Override
     public void onClick(View view) {
-
+        movieItemDeligate.onItemTap(view);
     }
 }
 

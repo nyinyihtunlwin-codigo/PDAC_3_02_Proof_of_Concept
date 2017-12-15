@@ -50,4 +50,10 @@
     <dimen name="margin_rating_text">2dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="play_icon_size">60dp</dimen>
+    <dimen name="movie_trailer_item_width">250dp</dimen>
+    <dimen name="movie_trailer_img_height">160dp</dimen>
+    <dimen name="margin_extra_large">50dp</dimen>
+    <dimen name="movie_details_toolbar_layout_height">300dp</dimen>
+    <dimen name="movie_trailers_rv_height">220dp</dimen>
 </resources>

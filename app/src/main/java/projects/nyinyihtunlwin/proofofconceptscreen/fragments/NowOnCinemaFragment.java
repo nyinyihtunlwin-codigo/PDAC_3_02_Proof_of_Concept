@@ -1,6 +1,7 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
+import projects.nyinyihtunlwin.proofofconceptscreen.activities.MovieDetailsActivity;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
 import projects.nyinyihtunlwin.proofofconceptscreen.components.EmptyViewPod;
 import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView;
@@ -70,7 +72,7 @@ public class NowOnCinemaFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
         ButterKnife.bind(this, view);
         rvNowOnCinema.setHasFixedSize(true);
-        adapter = new MovieAdapter(getContext());
+        adapter = new MovieAdapter(getContext(), this);
         rvNowOnCinema.setEmptyView(vpEmptyMovie);
         rvNowOnCinema.setAdapter(adapter);
         rvNowOnCinema.setLayoutManager(new LinearLayoutManager(container.getContext()));
@@ -108,5 +110,11 @@ public class NowOnCinemaFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onItemTap(View view) {
+        super.onItemTap(view);
+        getActivity().startActivity(new Intent(getActivity().getApplicationContext(), MovieDetailsActivity.class));
     }
 }

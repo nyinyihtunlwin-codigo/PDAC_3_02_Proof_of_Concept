@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
+import projects.nyinyihtunlwin.proofofconceptscreen.deligates.MovieItemDeligate;
 import projects.nyinyihtunlwin.proofofconceptscreen.viewholders.MovieViewHolder;
 
 /**
@@ -18,13 +19,16 @@ import projects.nyinyihtunlwin.proofofconceptscreen.viewholders.MovieViewHolder;
 
 public class MovieAdapter extends BaseRecyclerAdapter<MovieViewHolder, MovieVO> {
 
-    public MovieAdapter(Context context) {
+    private MovieItemDeligate movieItemDeligate;
+
+    public MovieAdapter(Context context, MovieItemDeligate movieItemDeligate) {
         super(context);
+        this.movieItemDeligate = movieItemDeligate;
     }
 
     @Override
     public MovieViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.view_item_movie, parent, false);
-        return new MovieViewHolder(view);
+        return new MovieViewHolder(view,movieItemDeligate);
     }
 }

@@ -20,7 +20,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="@dimen/movie_details_toolbar_layout_height">
 
                 <ImageView
                     android:id="@+id/iv_movie_background"
@@ -29,27 +29,56 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/img_movie_back_placeholder" />
 
-                <LinearLayout
+                <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_above="@+id/rate_view"
                     android:background="@color/transparent"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/margin_medium">
+                    android:padding="@dimen/margin_medium" />
 
-                    <ImageView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/spider_man_home_coming" />
+                <ImageView
+                    android:id="@+id/iv_movie"
+                    android:layout_width="@dimen/movie_icon_width"
+                    android:layout_height="@dimen/movie_icon_height"
+                    android:layout_above="@id/rate_view"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:layout_marginLeft="@dimen/margin_medium_2"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/spider_man_home_coming" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@id/rate_view"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium_2"
+                    android:layout_toRightOf="@id/iv_movie"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/movie_detail_title"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_regular_3x" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/movie_details_data"
+                        android:textColor="@color/white" />
                 </LinearLayout>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/iv_movie"
+                    android:layout_alignRight="@id/iv_movie"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:background="@color/transparent"
+                    android:padding="@dimen/margin_card_medium"
+                    android:src="@drawable/ic_crop_free_24dp" />
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -118,7 +147,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="@dimen/margin_xxlarge"
                 android:background="@color/light_brown"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_large"
@@ -171,11 +200,23 @@
                     android:textColor="@color/white" />
             </FrameLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_movie_trailers"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="@dimen/margin_medium_2" />
+                android:layout_height="wrap_content">
+
+                <projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView
+                    android:id="@+id/rv_movie_trailers"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/movie_trailers_rv_height"
+                    android:layout_marginTop="@dimen/margin_medium_2" />
+
+                <include
+                    android:id="@+id/vp_empty_movie"
+                    layout="@layout/view_pod_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
