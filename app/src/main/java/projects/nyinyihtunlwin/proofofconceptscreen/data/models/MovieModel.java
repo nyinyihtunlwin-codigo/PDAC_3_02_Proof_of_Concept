@@ -38,6 +38,21 @@ public class MovieModel {
         MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN);
     }
 
+    public void loadMoreMovies() {
+        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN);
+    }
+
+
+    public void forceRefreshMovies() {
+        mMovies=new ArrayList<>();
+        moviePageIndex = 1;
+        startLoadingPopularMovies();
+    }
+
+    public List<MovieVO> getMovies() {
+        return mMovies;
+    }
+
     @Subscribe
     public void onMoviesDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
         mMovies.addAll(event.getLoadedMovies());

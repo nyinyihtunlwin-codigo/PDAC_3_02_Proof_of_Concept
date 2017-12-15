@@ -11,7 +11,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="txt_placeholder_movie_name">Spiderman Homecoming</string>
+    <string name="txt_placeholder_movie_name">IT</string>
     <string name="txt_placeholder_movie_type">(Drama, Horror, Triller)</string>
     <string name="txt_placeholder_movie_popularity">Current Popularity</string>
     <string name="btn_movie_overview">Movie Overview</string>
@@ -122,4 +122,11 @@
     <string name="trailer_title">Official Trailer</string>
     <string name="trailer_type">Trailer</string>
     <string name="movie_detail_title">Fear can hold you prisoner. Hope can set you free.</string>
+
+    <string name="transition_name_movie_logo">transition:MOVIE_LOGO</string>
+    <string name="transition_name_movie_name">transition:MOVIE_NAME</string>
+    <string name="transition_name_movie_rating_bar">transition:MOVIE_RATING_BAR</string>
+    <string name="transition_name_movie_rate_view">transition:MOVIE_RATE_VIEW</string>
+    <string name="transition_name_movie_view_logo">transition:MOVIE_VIEW_LOGO</string>
+
 </resources>

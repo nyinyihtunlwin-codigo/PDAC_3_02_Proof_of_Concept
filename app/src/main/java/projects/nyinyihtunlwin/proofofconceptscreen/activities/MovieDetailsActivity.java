@@ -1,5 +1,7 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,6 +23,11 @@ public class MovieDetailsActivity extends BaseActivity {
 
     @BindView(R.id.vp_empty_movie)
     EmptyViewPod vpEmptyMovie;
+
+    public static Intent newIntent(Context context) {
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        return intent;
+    }
 
 
     @Override

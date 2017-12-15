@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.util.Pair;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +19,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
@@ -22,6 +28,9 @@ import projects.nyinyihtunlwin.proofofconceptscreen.activities.MovieDetailsActiv
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
 import projects.nyinyihtunlwin.proofofconceptscreen.components.EmptyViewPod;
 import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartRecyclerView;
+import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartVerticalScrollListener;
+import projects.nyinyihtunlwin.proofofconceptscreen.data.models.MovieModel;
+import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
 import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
 
 
@@ -42,6 +51,9 @@ public class MostPopularFragment extends BaseFragment {
 
     @BindView(R.id.vp_empty_movie)
     EmptyViewPod vpEmptyMovie;
+
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public MostPopularFragment() {
         // Required empty public constructor
@@ -78,6 +90,23 @@ public class MostPopularFragment extends BaseFragment {
         rvMostPopular.setEmptyView(vpEmptyMovie);
         rvMostPopular.setAdapter(adapter);
         rvMostPopular.setLayoutManager(new LinearLayoutManager(container.getContext()));
+
+        SmartVerticalScrollListener scrollListener = new SmartVerticalScrollListener(new SmartVerticalScrollListener.OnSmartVerticalScrollListener() {
+            @Override
+            public void onListEndReached() {
+                MovieModel.getInstance().loadMoreMovies();
+            }
+        });
+
+        rvMostPopular.addOnScrollListener(scrollListener);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MovieModel.getInstance().forceRefreshMovies();
+            }
+        });
+
         return view;
     }
 
@@ -86,16 +115,24 @@ public class MostPopularFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        List<MovieVO> newsList = MovieModel.getInstance().getMovies();
+        if (!newsList.isEmpty()) {
+            adapter.setNewData(newsList);
+        } else {
+            swipeRefreshLayout.setRefreshing(true);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMovieDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
         adapter.appendNewData(event.getLoadedMovies());
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onErrorInvokingAPI(RestApiEvents.ErrorInvokingAPIEvent event) {
         Snackbar.make(rvMostPopular, event.getErrorMsg(), Snackbar.LENGTH_INDEFINITE).show();
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -108,6 +145,7 @@ public class MostPopularFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        MovieModel.getInstance().startLoadingPopularMovies();
     }
 
     @Override
@@ -118,6 +156,25 @@ public class MostPopularFragment extends BaseFragment {
     @Override
     public void onItemTap(View view) {
         super.onItemTap(view);
-        getActivity().startActivity(new Intent(getActivity().getApplicationContext(), MovieDetailsActivity.class));
+        Intent intent = MovieDetailsActivity.newIntent(getActivity().getApplicationContext());
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                // the context of the activity
+                getActivity(),
+
+                // For each shared element, add to this method a new Pair item,
+                // which contains the reference of the view we are transitioning *from*,
+                // and the value of the transitionName attribute
+                new Pair<View, String>(view.findViewById(R.id.iv_movie),
+                        getString(R.string.transition_name_movie_logo)),
+                new Pair<View, String>(view.findViewById(R.id.tv_movie_name),
+                        getString(R.string.transition_name_movie_name)),
+                new Pair<View, String>(view.findViewById(R.id.rb_movie),
+                        getString(R.string.transition_name_movie_rating_bar)),
+                new Pair<View, String>(view.findViewById(R.id.tv_rate),
+                        getString(R.string.transition_name_movie_rate_view)),
+                new Pair<View, String>(view.findViewById(R.id.iv_view_logo),
+                        getString(R.string.transition_name_movie_view_logo))
+        );
+        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
     }
 }
