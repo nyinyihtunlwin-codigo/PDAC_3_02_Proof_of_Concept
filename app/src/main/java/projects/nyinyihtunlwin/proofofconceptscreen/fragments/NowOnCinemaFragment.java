@@ -157,9 +157,6 @@ public class NowOnCinemaFragment extends BaseFragment {
                 // the context of the activity
                 getActivity(),
 
-                // For each shared element, add to this method a new Pair item,
-                // which contains the reference of the view we are transitioning *from*,
-                // and the value of the transitionName attribute
                 new Pair<View, String>(view.findViewById(R.id.iv_movie),
                         getString(R.string.transition_name_movie_logo)),
                 new Pair<View, String>(view.findViewById(R.id.tv_movie_name),

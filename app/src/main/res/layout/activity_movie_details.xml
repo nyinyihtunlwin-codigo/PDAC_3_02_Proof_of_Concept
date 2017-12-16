@@ -50,25 +50,37 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_above="@id/rate_view"
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginTop="@dimen/margin_medium_2"
                     android:layout_toRightOf="@id/iv_movie"
                     android:orientation="vertical">
 
-                    <TextView
+                    <android.support.v4.widget.NestedScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/movie_detail_title"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_regular_3x" />
+                        android:fillViewport="true">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/movie_details_data"
-                        android:textColor="@color/white" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/movie_detail_title"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_regular_3x" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/movie_details_data"
+                                android:textColor="@color/white" />
+                        </LinearLayout>
+                    </android.support.v4.widget.NestedScrollView>
                 </LinearLayout>
 
                 <ImageView
