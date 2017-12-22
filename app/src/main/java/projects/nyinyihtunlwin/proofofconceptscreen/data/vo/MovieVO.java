@@ -122,7 +122,7 @@ public class MovieVO {
         MovieVO movie = new MovieVO();
         movie.movieId = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
         movie.voteCount = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_COUNT));
-        //  movie.video=cursor.getBlob(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VIDEO));
+        movie.video = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VIDEO)) > 0;
         movie.voteAverage = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE));
         movie.title = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_TITLE));
         movie.popularity = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY));
@@ -130,7 +130,7 @@ public class MovieVO {
         movie.originalLanguage = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE));
         movie.originalTitle = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE));
         movie.backDropPath = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH));
-        //     movie.adult=cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ADULT));
+        movie.adult = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ADULT)) > 0;
         movie.overview = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW));
         movie.releasedDate = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE));
         return movie;
