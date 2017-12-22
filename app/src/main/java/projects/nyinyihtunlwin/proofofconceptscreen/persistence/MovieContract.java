@@ -1,4 +1,4 @@
-package projects.nyinyihtunlwin.proofofconceptscreen.data.persistence;
+package projects.nyinyihtunlwin.proofofconceptscreen.persistence;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -17,6 +17,7 @@ public class MovieContract {
 
     public static final String PATH_MOVIES = "movies";
     public static final String PATH_GENRE = "genre";
+    public static final String PATH_MOVIE_GENRE = "movie_genre";
 
     public static final class MovieEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
@@ -30,6 +31,7 @@ public class MovieContract {
 
         public static final String TABLE_NAME = "movies";
 
+        public static final String COLUMN_MOVIE_ID = "movie_id";
         public static final String COLUMN_VOTE_COUNT = "vote_count";
         public static final String COLUMN_VIDEO = "video";
         public static final String COLUMN_VOTE_AVERAGE = "vote_average";
@@ -70,25 +72,27 @@ public class MovieContract {
 
         public static final String TABLE_NAME = "genre";
 
-        public static final String COLUMN_GENREID = "genre_id";
+        public static final String COLUMN_GENRE_ID = "genre_id";
 
         public static Uri buildMovieUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
     }
+
     public static final class MovieGenreEntry implements BaseColumns {
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_GENRE).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE_GENRE).build();
 
         public static final String DIR_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GENRE;
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE_GENRE;
 
         public static final String ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_GENRE;
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE_GENRE;
 
-        public static final String TABLE_NAME = "genre";
+        public static final String TABLE_NAME = "movie_genre";
 
-        public static final String COLUMN_GENREID = "genre_id";
+        public static final String COLUMN_GENRE_ID = "genre_id";
+        public static final String COLUMN_MOVIE_ID = "movie_id";
 
         public static Uri buildMovieUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);

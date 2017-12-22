@@ -1,5 +1,8 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.events;
 
+import android.content.ContentProvider;
+import android.content.Context;
+
 import java.util.List;
 
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
@@ -23,12 +26,15 @@ public class RestApiEvents {
     }
 
     public static class MoviesDataLoadedEvent {
+
         private int loadedPageIndex;
         private List<MovieVO> loadedMovies;
+        private Context context;
 
-        public MoviesDataLoadedEvent(int loadedPageIndex, List<MovieVO> loadedMovies) {
+        public MoviesDataLoadedEvent(int loadedPageIndex, List<MovieVO> loadedMovies, Context context) {
             this.loadedPageIndex = loadedPageIndex;
             this.loadedMovies = loadedMovies;
+            this.context = context;
         }
 
         public int getLoadedPageIndex() {
@@ -37,6 +43,10 @@ public class RestApiEvents {
 
         public List<MovieVO> getLoadedMovies() {
             return loadedMovies;
+        }
+
+        public Context getContext() {
+            return context;
         }
     }
 }

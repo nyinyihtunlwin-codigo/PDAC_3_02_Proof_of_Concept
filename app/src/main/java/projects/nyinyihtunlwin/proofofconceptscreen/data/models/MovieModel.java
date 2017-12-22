@@ -1,14 +1,19 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.data.models;
 
+import android.content.ContentValues;
+import android.util.Log;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import projects.nyinyihtunlwin.proofofconceptscreen.POC_Screen_App;
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
 import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
 import projects.nyinyihtunlwin.proofofconceptscreen.network.MovieDataAgentImpl;
+import projects.nyinyihtunlwin.proofofconceptscreen.persistence.MovieContract;
 import projects.nyinyihtunlwin.proofofconceptscreen.utils.AppConstants;
 
 /**
@@ -57,5 +62,14 @@ public class MovieModel {
     public void onMoviesDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
         mMovies.addAll(event.getLoadedMovies());
         moviePageIndex = event.getLoadedPageIndex() + 1;
+
+        //TODO Logic to save the data in Persistence Layer
+        ContentValues[] newsCVs = new ContentValues[event.getLoadedMovies().size()];
+        for (int index = 0; index < newsCVs.length; index++) {
+            newsCVs[index] = event.getLoadedMovies().get(index).parseToContentValues();
+        }
+
+        int insertedRowCount = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, newsCVs);
+        Log.d(POC_Screen_App.LOG_TAG, "Inserted row : " + insertedRowCount);
     }
 }

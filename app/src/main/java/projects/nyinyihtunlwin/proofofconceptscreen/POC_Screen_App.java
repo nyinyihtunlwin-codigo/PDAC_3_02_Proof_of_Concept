@@ -9,6 +9,8 @@ import projects.nyinyihtunlwin.proofofconceptscreen.data.models.MovieModel;
  */
 
 public class POC_Screen_App extends Application {
+    public static final String LOG_TAG = "Movie";
+
     @Override
     public void onCreate() {
         super.onCreate();
