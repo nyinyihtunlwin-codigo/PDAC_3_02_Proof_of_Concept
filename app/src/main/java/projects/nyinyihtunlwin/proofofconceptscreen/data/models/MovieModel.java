@@ -1,6 +1,7 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.data.models;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,19 +40,19 @@ public class MovieModel {
         return objectInstance;
     }
 
-    public void startLoadingPopularMovies() {
-        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN);
+    public void startLoadingPopularMovies(Context context) {
+        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN, context);
     }
 
-    public void loadMoreMovies() {
-        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN);
+    public void loadMoreMovies(Context context) {
+        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN, context);
     }
 
 
-    public void forceRefreshMovies() {
-        mMovies=new ArrayList<>();
+    public void forceRefreshMovies(Context context) {
+        mMovies = new ArrayList<>();
         moviePageIndex = 1;
-        startLoadingPopularMovies();
+        startLoadingPopularMovies(context);
     }
 
     public List<MovieVO> getMovies() {
@@ -64,12 +65,12 @@ public class MovieModel {
         moviePageIndex = event.getLoadedPageIndex() + 1;
 
         //TODO Logic to save the data in Persistence Layer
-        ContentValues[] newsCVs = new ContentValues[event.getLoadedMovies().size()];
-        for (int index = 0; index < newsCVs.length; index++) {
-            newsCVs[index] = event.getLoadedMovies().get(index).parseToContentValues();
+        ContentValues[] movieCVS = new ContentValues[event.getLoadedMovies().size()];
+        for (int index = 0; index < movieCVS.length; index++) {
+            movieCVS[index] = event.getLoadedMovies().get(index).parseToContentValues();
         }
 
-        int insertedRowCount = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, newsCVs);
+        int insertedRowCount = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI, movieCVS);
         Log.d(POC_Screen_App.LOG_TAG, "Inserted row : " + insertedRowCount);
     }
 }

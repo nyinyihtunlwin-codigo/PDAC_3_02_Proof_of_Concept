@@ -103,18 +103,18 @@ public class MovieVO {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_VIDEO, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, movieId);
-        contentValues.put(MovieContract.MovieEntry.COLUMN_ADULT, movieId);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, voteCount);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VIDEO, video);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, title);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY, popularity);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, posterPath);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE, originalLanguage);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, backDropPath);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, overview);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releasedDate);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ADULT, adult);
         return contentValues;
     }
 

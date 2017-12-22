@@ -26,6 +26,12 @@
         <activity
             android:name=".activities.MovieDetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider
+            android:name=".persistence.MovieProvider"
+            android:authorities="projects.nyinyihtunlwin.proofofconceptscreen"
+            android:exported="false"
+            android:syncable="true" />
     </application>
 
 </manifest>

@@ -94,7 +94,7 @@ public class MostPopularFragment extends BaseFragment {
         SmartVerticalScrollListener scrollListener = new SmartVerticalScrollListener(new SmartVerticalScrollListener.OnSmartVerticalScrollListener() {
             @Override
             public void onListEndReached() {
-                MovieModel.getInstance().loadMoreMovies();
+                MovieModel.getInstance().loadMoreMovies(getContext());
             }
         });
 
@@ -103,7 +103,7 @@ public class MostPopularFragment extends BaseFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MovieModel.getInstance().forceRefreshMovies();
+                MovieModel.getInstance().forceRefreshMovies(getContext());
             }
         });
 
@@ -125,8 +125,8 @@ public class MostPopularFragment extends BaseFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMovieDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
-        adapter.appendNewData(event.getLoadedMovies());
-        swipeRefreshLayout.setRefreshing(false);
+/*        adapter.appendNewData(event.getLoadedMovies());
+        swipeRefreshLayout.setRefreshing(false);*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -145,7 +145,7 @@ public class MostPopularFragment extends BaseFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        MovieModel.getInstance().startLoadingPopularMovies();
+     //   MovieModel.getInstance().startLoadingPopularMovies(getContext());
     }
 
     @Override

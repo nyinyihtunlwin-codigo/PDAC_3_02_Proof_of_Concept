@@ -38,13 +38,13 @@ import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
 import projects.nyinyihtunlwin.proofofconceptscreen.persistence.MovieContract;
 
 
-public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>{
+public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static final int MOVIE_LOADER_ID=1001;
+    private static final int MOVIE_LOADER_ID = 1001;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -98,7 +98,7 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         SmartVerticalScrollListener scrollListener = new SmartVerticalScrollListener(new SmartVerticalScrollListener.OnSmartVerticalScrollListener() {
             @Override
             public void onListEndReached() {
-                MovieModel.getInstance().loadMoreMovies();
+                MovieModel.getInstance().loadMoreMovies(getContext());
             }
         });
 
@@ -107,11 +107,11 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MovieModel.getInstance().forceRefreshMovies();
+                MovieModel.getInstance().forceRefreshMovies(getContext());
             }
         });
 
-        getActivity().getSupportLoaderManager().initLoader(MOVIE_LOADER_ID,null,this);
+        getActivity().getSupportLoaderManager().initLoader(MOVIE_LOADER_ID, null, this);
 
         return view;
     }
@@ -149,7 +149,7 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        MovieModel.getInstance().startLoadingPopularMovies();
+        MovieModel.getInstance().startLoadingPopularMovies(getContext());
     }
 
     @Override
