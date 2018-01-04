@@ -16,6 +16,7 @@ import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
 import projects.nyinyihtunlwin.proofofconceptscreen.network.MovieDataAgentImpl;
 import projects.nyinyihtunlwin.proofofconceptscreen.persistence.MovieContract;
 import projects.nyinyihtunlwin.proofofconceptscreen.utils.AppConstants;
+import projects.nyinyihtunlwin.proofofconceptscreen.utils.ConfigUtils;
 
 /**
  * Created by Dell on 12/6/2017.
@@ -24,9 +25,9 @@ import projects.nyinyihtunlwin.proofofconceptscreen.utils.AppConstants;
 public class MovieModel {
 
     private static MovieModel objectInstance;
-    private int moviePageIndex = 1;
 
     private List<MovieVO> mMovies;
+
 
     private MovieModel() {
         EventBus.getDefault().register(this);
@@ -41,17 +42,17 @@ public class MovieModel {
     }
 
     public void startLoadingPopularMovies(Context context) {
-        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN, context);
+        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(ConfigUtils.getObjInstance().loadPageIndex(), AppConstants.ACCESS_TOKEN, context);
     }
 
     public void loadMoreMovies(Context context) {
-        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(moviePageIndex, AppConstants.ACCESS_TOKEN, context);
+        MovieDataAgentImpl.getObjectInstance().loadPopularMovies(ConfigUtils.getObjInstance().loadPageIndex(), AppConstants.ACCESS_TOKEN, context);
     }
 
 
     public void forceRefreshMovies(Context context) {
         mMovies = new ArrayList<>();
-        moviePageIndex = 1;
+        ConfigUtils.getObjInstance().savePageIndex(1);
         startLoadingPopularMovies(context);
     }
 
@@ -62,7 +63,7 @@ public class MovieModel {
     @Subscribe
     public void onMoviesDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
         mMovies.addAll(event.getLoadedMovies());
-        moviePageIndex = event.getLoadedPageIndex() + 1;
+        ConfigUtils.getObjInstance().savePageIndex(event.getLoadedPageIndex());
 
         //TODO Logic to save the data in Persistence Layer
         ContentValues[] movieCVS = new ContentValues[event.getLoadedMovies().size()];
