@@ -1,13 +1,13 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.deligates;
 
-import android.view.View;
+import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
 
 /**
  * Created by Dell on 12/15/2017.
  */
 
 public interface MovieItemDeligate {
-    void onItemTap(View view);
+    void onItemTap(MovieVO movieVO);
 
     void onImageTap();
 

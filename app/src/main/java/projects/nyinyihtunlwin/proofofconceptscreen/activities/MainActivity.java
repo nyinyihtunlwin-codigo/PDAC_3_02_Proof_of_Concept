@@ -1,5 +1,6 @@
 package projects.nyinyihtunlwin.proofofconceptscreen.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -15,8 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.SectionsPagerAdapter;
+import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
+import projects.nyinyihtunlwin.proofofconceptscreen.mvp.views.MovieListView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 

@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -21,11 +19,13 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import projects.nyinyihtunlwin.proofofconceptscreen.POC_Screen_App;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.activities.MovieDetailsActivity;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
@@ -35,10 +35,12 @@ import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartVerticalScro
 import projects.nyinyihtunlwin.proofofconceptscreen.data.models.MovieModel;
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
 import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
+import projects.nyinyihtunlwin.proofofconceptscreen.mvp.presenters.MovieListPresenter;
+import projects.nyinyihtunlwin.proofofconceptscreen.mvp.views.MovieListView;
 import projects.nyinyihtunlwin.proofofconceptscreen.persistence.MovieContract;
 
 
-public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, MovieListView {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +63,12 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+    @Inject
+    MovieListPresenter mPresenter;
+
+    @Inject
+    MovieModel mMovieModel;
+
     public NowOnCinemaFragment() {
         // Required empty public constructor
     }
@@ -81,6 +89,11 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        POC_Screen_App app = (POC_Screen_App) getActivity().getApplicationContext();
+        app.getAppComponent().inject(this);
+
+        mPresenter.onCreate(this);
+
     }
 
     @Override
@@ -90,15 +103,19 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         View view = inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
         ButterKnife.bind(this, view);
         rvNowOnCinema.setHasFixedSize(true);
-        adapter = new MovieAdapter(getContext(), this);
+        adapter = new MovieAdapter(getContext(), mPresenter);
         rvNowOnCinema.setEmptyView(vpEmptyMovie);
         rvNowOnCinema.setAdapter(adapter);
         rvNowOnCinema.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
+
+        mPresenter.onCreateView();
+
+
         SmartVerticalScrollListener scrollListener = new SmartVerticalScrollListener(new SmartVerticalScrollListener.OnSmartVerticalScrollListener() {
             @Override
             public void onListEndReached() {
-                MovieModel.getInstance().loadMoreMovies(getContext());
+                mPresenter.onListEndReached(getActivity().getApplicationContext());
             }
         });
 
@@ -107,7 +124,7 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MovieModel.getInstance().forceRefreshMovies(getContext());
+                mPresenter.onForceRefresh(getActivity().getApplicationContext());
             }
         });
 
@@ -119,19 +136,32 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
     @Override
     public void onStart() {
         super.onStart();
+        mPresenter.onStart();
         EventBus.getDefault().register(this);
-        List<MovieVO> newsList = MovieModel.getInstance().getMovies();
-        if (!newsList.isEmpty()) {
-            adapter.setNewData(newsList);
-        } else {
-            swipeRefreshLayout.setRefreshing(true);
-        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMovieDataLoaded(RestApiEvents.MoviesDataLoadedEvent event) {
-        adapter.appendNewData(event.getLoadedMovies());
-        swipeRefreshLayout.setRefreshing(false);
+     /*   adapter.appendNewData(event.getLoadedMovies());
+        swipeRefreshLayout.setRefreshing(false);*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -144,12 +174,12 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
     public void onStop() {
         EventBus.getDefault().unregister(this);
         super.onStop();
+        mPresenter.onStop();
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        MovieModel.getInstance().startLoadingPopularMovies(getContext());
     }
 
     @Override
@@ -157,27 +187,6 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         super.onDetach();
     }
 
-    @Override
-    public void onItemTap(View view) {
-        super.onItemTap(view);
-        Intent intent = MovieDetailsActivity.newIntent(getActivity().getApplicationContext());
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                // the context of the activity
-                getActivity(),
-
-                new Pair<View, String>(view.findViewById(R.id.iv_movie),
-                        getString(R.string.transition_name_movie_logo)),
-                new Pair<View, String>(view.findViewById(R.id.tv_movie_name),
-                        getString(R.string.transition_name_movie_name)),
-                new Pair<View, String>(view.findViewById(R.id.rb_movie),
-                        getString(R.string.transition_name_movie_rating_bar)),
-                new Pair<View, String>(view.findViewById(R.id.tv_rate),
-                        getString(R.string.transition_name_movie_rate_view)),
-                new Pair<View, String>(view.findViewById(R.id.iv_view_logo),
-                        getString(R.string.transition_name_movie_view_logo))
-        );
-        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
-    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -191,21 +200,35 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
-            List<MovieVO> movieList = new ArrayList<>();
-            do {
-                MovieVO newsVO = MovieVO.parseFromCursor(data);
-                movieList.add(newsVO);
-            } while (data.moveToNext());
-
-            adapter.setNewData(movieList);
-            swipeRefreshLayout.setRefreshing(false);
-
-        }
+        mPresenter.onMoviesDataLoaded(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
 
     }
+
+    @Override
+    public void displayMoviesList(List<MovieVO> moviesList) {
+        adapter.setNewData(moviesList);
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void showLoding() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void navigateToMovieetails(MovieVO movieVO) {
+        Intent intent = MovieDetailsActivity.newIntent(getActivity().getApplicationContext());
+        startActivity(intent);
+    }
+
+    @Nullable
+    @Override
+    public Context getContext() {
+        return getActivity().getApplicationContext();
+    }
+
 }

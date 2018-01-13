@@ -21,8 +21,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import projects.nyinyihtunlwin.proofofconceptscreen.POC_Screen_App;
 import projects.nyinyihtunlwin.proofofconceptscreen.R;
 import projects.nyinyihtunlwin.proofofconceptscreen.activities.MovieDetailsActivity;
 import projects.nyinyihtunlwin.proofofconceptscreen.adapters.MovieAdapter;
@@ -32,9 +35,11 @@ import projects.nyinyihtunlwin.proofofconceptscreen.components.SmartVerticalScro
 import projects.nyinyihtunlwin.proofofconceptscreen.data.models.MovieModel;
 import projects.nyinyihtunlwin.proofofconceptscreen.data.vo.MovieVO;
 import projects.nyinyihtunlwin.proofofconceptscreen.events.RestApiEvents;
+import projects.nyinyihtunlwin.proofofconceptscreen.mvp.presenters.MovieListPresenter;
+import projects.nyinyihtunlwin.proofofconceptscreen.mvp.views.MovieListView;
 
 
-public class MostPopularFragment extends BaseFragment {
+public class MostPopularFragment extends BaseFragment implements MovieListView{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -86,15 +91,15 @@ public class MostPopularFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
         ButterKnife.bind(this, view);
         rvMostPopular.setHasFixedSize(true);
-        adapter = new MovieAdapter(getContext(), this);
+     //   adapter = new MovieAdapter(getContext(), mPresenter);
         rvMostPopular.setEmptyView(vpEmptyMovie);
-        rvMostPopular.setAdapter(adapter);
+    //    rvMostPopular.setAdapter(adapter);
         rvMostPopular.setLayoutManager(new LinearLayoutManager(container.getContext()));
 
         SmartVerticalScrollListener scrollListener = new SmartVerticalScrollListener(new SmartVerticalScrollListener.OnSmartVerticalScrollListener() {
             @Override
             public void onListEndReached() {
-                MovieModel.getInstance().loadMoreMovies(getContext());
+            //    MovieModel.getInstance().loadMoreMovies(getContext());
             }
         });
 
@@ -103,7 +108,7 @@ public class MostPopularFragment extends BaseFragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MovieModel.getInstance().forceRefreshMovies(getContext());
+            //    MovieModel.getInstance().forceRefreshMovies(getContext());
             }
         });
 
@@ -115,12 +120,12 @@ public class MostPopularFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        List<MovieVO> newsList = MovieModel.getInstance().getMovies();
+     /*   List<MovieVO> newsList = MovieModel.getInstance().getMovies();
         if (!newsList.isEmpty()) {
             adapter.setNewData(newsList);
         } else {
             swipeRefreshLayout.setRefreshing(true);
-        }
+        }*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -154,24 +159,17 @@ public class MostPopularFragment extends BaseFragment {
     }
 
     @Override
-    public void onItemTap(View view) {
-        super.onItemTap(view);
-        Intent intent = MovieDetailsActivity.newIntent(getActivity().getApplicationContext());
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                // the context of the activity
-                getActivity(),
+    public void displayMoviesList(List<MovieVO> moviesList) {
 
-                new Pair<View, String>(view.findViewById(R.id.iv_movie),
-                        getString(R.string.transition_name_movie_logo)),
-                new Pair<View, String>(view.findViewById(R.id.tv_movie_name),
-                        getString(R.string.transition_name_movie_name)),
-                new Pair<View, String>(view.findViewById(R.id.rb_movie),
-                        getString(R.string.transition_name_movie_rating_bar)),
-                new Pair<View, String>(view.findViewById(R.id.tv_rate),
-                        getString(R.string.transition_name_movie_rate_view)),
-                new Pair<View, String>(view.findViewById(R.id.iv_view_logo),
-                        getString(R.string.transition_name_movie_view_logo))
-        );
-        ActivityCompat.startActivity(getActivity(), intent, options.toBundle());
+    }
+
+    @Override
+    public void showLoding() {
+
+    }
+
+    @Override
+    public void navigateToMovieetails(MovieVO movieVO) {
+
     }
 }

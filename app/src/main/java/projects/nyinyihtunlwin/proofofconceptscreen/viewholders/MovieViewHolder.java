@@ -34,6 +34,9 @@ public class MovieViewHolder extends BaseViewHolder<MovieVO> {
     @BindView(R.id.rb_movie)
     AppCompatRatingBar rbMovie;
 
+    MovieVO mData;
+
+
     private MovieItemDeligate movieItemDeligate;
 
     public MovieViewHolder(View itemView, MovieItemDeligate movieItemDeligate) {
@@ -45,6 +48,7 @@ public class MovieViewHolder extends BaseViewHolder<MovieVO> {
 
     @Override
     public void setData(MovieVO mData) {
+        this.mData = mData;
         tvMovieName.setText(mData.getTitle());
         tvRate.setText(mData.getVoteAverage() + "");
         RequestOptions requestOptions = new RequestOptions()
@@ -58,7 +62,7 @@ public class MovieViewHolder extends BaseViewHolder<MovieVO> {
 
     @Override
     public void onClick(View view) {
-        movieItemDeligate.onItemTap(view);
+        movieItemDeligate.onItemTap(mData);
     }
 }
 
