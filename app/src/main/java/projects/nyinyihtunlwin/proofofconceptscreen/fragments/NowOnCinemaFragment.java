@@ -41,16 +41,8 @@ import projects.nyinyihtunlwin.proofofconceptscreen.persistence.MovieContract;
 
 
 public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, MovieListView {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     private static final int MOVIE_LOADER_ID = 1001;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     @BindView(R.id.rv_now_on_cinema)
     SmartRecyclerView rvNowOnCinema;
@@ -69,31 +61,16 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
     @Inject
     MovieModel mMovieModel;
 
-    public NowOnCinemaFragment() {
-        // Required empty public constructor
-    }
 
-    public static NowOnCinemaFragment newInstance(String param1, String param2) {
-        NowOnCinemaFragment fragment = new NowOnCinemaFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    public static NowOnCinemaFragment newInstance() {
+        NowOnCinemaFragment loginFragment = new NowOnCinemaFragment();
+        return loginFragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        POC_Screen_App app = (POC_Screen_App) getActivity().getApplicationContext();
-        app.getAppComponent().inject(this);
-
-        mPresenter.onCreate(this);
-
+        mPresenter.onCreate();
     }
 
     @Override
@@ -102,15 +79,13 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_now_on_cinema, container, false);
         ButterKnife.bind(this, view);
+
+
         rvNowOnCinema.setHasFixedSize(true);
         adapter = new MovieAdapter(getContext(), mPresenter);
         rvNowOnCinema.setEmptyView(vpEmptyMovie);
         rvNowOnCinema.setAdapter(adapter);
         rvNowOnCinema.setLayoutManager(new LinearLayoutManager(container.getContext()));
-
-
-        mPresenter.onCreateView();
-
 
         SmartVerticalScrollListener scrollListener = new SmartVerticalScrollListener(new SmartVerticalScrollListener.OnSmartVerticalScrollListener() {
             @Override
@@ -180,11 +155,15 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        POC_Screen_App app = (POC_Screen_App) getContext();
+        app.getAppComponent().inject(this);
+        mPresenter.onAttach(this);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        mPresenter.onDetach();
     }
 
 
@@ -225,7 +204,6 @@ public class NowOnCinemaFragment extends BaseFragment implements LoaderManager.L
         startActivity(intent);
     }
 
-    @Nullable
     @Override
     public Context getContext() {
         return getActivity().getApplicationContext();

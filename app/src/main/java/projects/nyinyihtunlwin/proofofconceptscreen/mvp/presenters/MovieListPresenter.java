@@ -25,13 +25,13 @@ public class MovieListPresenter extends BasePresenter<MovieListView> implements 
 
     public MovieListPresenter(){}
 
-
     @Override
-    public void onCreate(MovieListView mView) {
-        super.onCreate(mView);
+    public void onAttach(MovieListView mView) {
+        super.onAttach(mView);
         POC_Screen_App app = (POC_Screen_App) mView.getContext();
         app.getAppComponent().inject(this);
     }
+
 
     @Override
     public void onStart() {

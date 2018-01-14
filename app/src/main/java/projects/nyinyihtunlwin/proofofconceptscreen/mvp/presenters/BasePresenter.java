@@ -8,11 +8,17 @@ public abstract class BasePresenter<T> {
 
     T mView;
 
-    public void onCreate(T mView) {
-        this.mView = mView;
+    public void onCreate() {
     }
 
     public void onCreateView() {
+    }
+
+    public void onAttach(T mView) {
+        this.mView = mView;
+    }
+
+    public void onDetach() {
     }
 
     public abstract void onStart();
