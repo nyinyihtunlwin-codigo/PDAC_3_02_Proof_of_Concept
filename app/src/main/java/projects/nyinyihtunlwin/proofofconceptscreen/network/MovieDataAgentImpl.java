@@ -46,28 +46,17 @@ public class MovieDataAgentImpl implements MovieDataAgent {
     @Override
     public void loadPopularMovies(int page, String accessToken, final Context context) {
         Call<GetPopularMovieResponse> loadPopularMoviesCall = movieAPI.loadPopularMovies(page, accessToken);
-        loadPopularMoviesCall.enqueue(new Callback<GetPopularMovieResponse>() {
+        loadPopularMoviesCall.enqueue(new MovieCallback<GetPopularMovieResponse>() {
             @Override
             public void onResponse(Call<GetPopularMovieResponse> call, Response<GetPopularMovieResponse> response) {
+                super.onResponse(call, response);
                 GetPopularMovieResponse getPopularMovieResponse = response.body();
                 Log.e("status ", getPopularMovieResponse.getCode() + "");
                 if (getPopularMovieResponse != null
                         && getPopularMovieResponse.getPopularMovies().size() > 0) {
-                    RestApiEvents.MoviesDataLoadedEvent moviesDataLoadedEvent = new RestApiEvents.MoviesDataLoadedEvent(getPopularMovieResponse.getPage(), getPopularMovieResponse.getPopularMovies(),context);
+                    RestApiEvents.MoviesDataLoadedEvent moviesDataLoadedEvent = new RestApiEvents.MoviesDataLoadedEvent(getPopularMovieResponse.getPage(), getPopularMovieResponse.getPopularMovies(), context);
                     EventBus.getDefault().post(moviesDataLoadedEvent);
-
-                } else {
-                    RestApiEvents.ErrorInvokingAPIEvent errorInvokingAPIEvent
-                            = new RestApiEvents.ErrorInvokingAPIEvent("No data could be load for now. Please try again later.");
-                    EventBus.getDefault().post(errorInvokingAPIEvent);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<GetPopularMovieResponse> call, Throwable t) {
-                RestApiEvents.ErrorInvokingAPIEvent errorInvokingAPIEvent
-                        = new RestApiEvents.ErrorInvokingAPIEvent(t.getMessage());
-                EventBus.getDefault().post(errorInvokingAPIEvent);
             }
         });
 
